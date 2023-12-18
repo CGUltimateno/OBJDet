@@ -12,14 +12,17 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 output_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sounds")
 
+
 def initialize_video_capture():
     return cv2.VideoCapture(0)
+
 
 def generate_speech(label):
     text_to_speech = f"I see a {label}"
     tts = gTTS(text=text_to_speech, lang='en')
     tts.save(os.path.join(output_directory, f"{label}.mp3"))
     playsound(os.path.join(output_directory, f"{label}.mp3"))
+
 
 def detect_objects(frame):
     net = cv2.dnn.readNet("yolov4.weights", "yolov4.cfg")
@@ -65,6 +68,7 @@ def detect_objects(frame):
 
     return detected_labels, detected_boxes
 
+
 def display_detection_result(image, detected_labels, detected_boxes):
     for i, box in enumerate(detected_boxes):
         x, y, w, h = box
@@ -76,12 +80,14 @@ def display_detection_result(image, detected_labels, detected_boxes):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+
 def object_detection_from_images():
     file_path = filedialog.askopenfilename(filetypes=[("PNG files", "*.png")])
     if file_path:
         image = cv2.imread(file_path)
         detected_labels, detected_boxes = detect_objects(image)
         display_detection_result(image, detected_labels, detected_boxes)
+
 
 def live_camera_detection():
     video = initialize_video_capture()
@@ -103,6 +109,7 @@ def live_camera_detection():
 
     cv2.destroyAllWindows()
 
+
 def main():
     root = tk.Tk()
     root.title("Object Detection")
@@ -110,10 +117,12 @@ def main():
     button_image_detection = tk.Button(root, text="Object Detection from Images", command=object_detection_from_images)
     button_image_detection.pack()
 
-    button_live_detection = tk.Button(root, text="Live Camera Detection", command=lambda: Thread(target=live_camera_detection).start())
+    button_live_detection = tk.Button(root, text="Live Camera Detection",
+                                      command=lambda: Thread(target=live_camera_detection).start())
     button_live_detection.pack()
 
     root.mainloop()
+
 
 if __name__ == "__main__":
     main()
