@@ -77,8 +77,7 @@ def display_detection_result(image, detected_labels, detected_boxes):
         cv2.putText(image, detected_labels[i], (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
     cv2.imshow("Object Detection", image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    cv2.waitKey(1)
 
 
 def object_detection_from_images():
@@ -108,7 +107,6 @@ def live_camera_detection():
             break
 
     cv2.destroyAllWindows()
-
 
 def main():
     root = tk.Tk()
