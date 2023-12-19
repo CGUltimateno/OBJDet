@@ -1,9 +1,8 @@
+from threading import Thread
 import cv2
 import os
 import tkinter as tk
 from tkinter import filedialog
-from threading import Thread
-
 import numpy as np
 from gtts import gTTS
 from playsound import playsound
@@ -26,7 +25,6 @@ def generate_speech(label):
 
 def detect_objects(frame):
     net = cv2.dnn.readNet("yolov4.weights", "yolov4.cfg")
-    classes = []
     with open("coco.names", "r") as f:
         classes = [line.strip() for line in f.readlines()]
 
@@ -108,6 +106,7 @@ def live_camera_detection():
 
     cv2.destroyAllWindows()
 
+
 def main():
     root = tk.Tk()
     root.title("Object Detection")
@@ -116,7 +115,7 @@ def main():
     button_image_detection.pack()
 
     button_live_detection = tk.Button(root, text="Live Camera Detection",
-                                      command=lambda: Thread(target=live_camera_detection).start())
+                                      command=live_camera_detection)
     button_live_detection.pack()
 
     root.mainloop()
